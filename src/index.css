@@ -1,0 +1,90 @@
+:root {
+  /* Colors */
+  --primary-hue: 262;
+  --color-primary: hsl(var(--primary-hue), 72%, 48%);
+  --color-primary-light: hsl(var(--primary-hue), 72%, 95%);
+  --color-primary-dark: hsl(var(--primary-hue), 72%, 35%);
+  --color-secondary: hsl(325, 75%, 65%); /* Rose Quartz */
+  --color-secondary-light: hsl(325, 75%, 96%);
+  --color-gold: hsl(42, 90%, 55%); /* Citrine Gold */
+  --color-teal: hsl(174, 65%, 41%); /* Healing Teal */
+  
+  /* Neutral Palette */
+  --color-bg-base: hsl(220, 20%, 97%);
+  --color-bg-surface: #ffffff;
+  --color-border: hsl(220, 15%, 90%);
+  --color-text-main: hsl(220, 40%, 15%);
+  --color-text-muted: hsl(220, 12%, 45%);
+  --color-text-inverse: #ffffff;
+
+  /* Typography */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Plus Jakarta Sans', var(--font-sans);
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(31, 35, 40, 0.04);
+  --shadow-md: 0 12px 24px rgba(31, 35, 40, 0.06);
+  --shadow-lg: 0 20px 48px rgba(31, 35, 40, 0.12);
+  --shadow-glow: 0 0 20px rgba(124, 58, 237, 0.25);
+
+  /* Radii */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Base resets */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg-base);
+  color: var(--color-text-main);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--color-text-main);
+  line-height: 1.25;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+/* Custom Scrollbar for modern look */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-base);
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary-hue), 20%, 75%);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
