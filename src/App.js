@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import './App.css';
 import Header from './components/Header';
@@ -14,14 +14,36 @@ import AboutUs from './components/AboutUs';
 import CartDrawer from './components/CartDrawer';
 import ProductQuickView from './components/ProductQuickView';
 import CheckoutModal from './components/CheckoutModal';
+import { supabase } from './supabaseClient';
+import { fallbackProducts } from './fallbackProducts';
 
 function App() {
+  const [products, setProducts] = useState(fallbackProducts);
   const [cartItems, setCartItems] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    async function getProducts() {
+      try {
+        const { data, error } = await supabase.from('products').select('*');
+        if (error) {
+          console.warn("Supabase fetch failed, using offline fallback products:", error);
+        } else if (data && data.length > 0) {
+          setProducts(data);
+        } else {
+          console.log("Supabase products table is empty. Seeding with fallback products.");
+        }
+      } catch (err) {
+        console.error("Error loading products from Supabase:", err);
+      }
+    }
+    getProducts();
+  }, []);
+
 
   // Add item to cart with quantity
   const handleAddToCart = (product, quantity = 1) => {
@@ -103,6 +125,7 @@ function App() {
               <HeroSection />
               <ProductCategories />
               <RecommendedProducts 
+                products={products}
                 handleAddToCart={handleAddToCart} 
                 onOpenQuickView={handleOpenQuickView} 
               />
@@ -111,6 +134,7 @@ function App() {
           
           <Route path="/products/all" element={
             <AllProducts 
+              products={products}
               handleAddToCart={handleAddToCart} 
               onOpenQuickView={handleOpenQuickView} 
               searchQuery={searchQuery} 
@@ -119,6 +143,7 @@ function App() {
           
           <Route path="/products/pyramid" element={
             <PyramidProducts 
+              products={products}
               handleAddToCart={handleAddToCart} 
               onOpenQuickView={handleOpenQuickView} 
             />
@@ -126,6 +151,7 @@ function App() {
           
           <Route path="/products/bracelet" element={
             <BraceletProducts 
+              products={products}
               handleAddToCart={handleAddToCart} 
               onOpenQuickView={handleOpenQuickView} 
             />
@@ -133,10 +159,12 @@ function App() {
           
           <Route path="/products/pencil" element={
             <PencilProducts 
+              products={products}
               handleAddToCart={handleAddToCart} 
               onOpenQuickView={handleOpenQuickView} 
             />
           } />
+
           
           <Route path="/about-us" element={<AboutUs />} />
         </Routes>
